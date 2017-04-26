@@ -11,12 +11,12 @@ mensajes = [
   ]
 
 s = random.choice(mensajes)
-print s
 
 if 'message' not in Hook['params']:
-    Hook['params']['message']=dict(chat=dict(id=12700726))
+    Hook['params']['message']=dict(chat=dict(id=12700726), text='/harry')
 
-requests.get(api_url, params={
-    'chat_id': Hook['params']['message']['chat']['id'],
-    'text': s,
-}, verify=False)
+if '/harry' in Hook['params']['message']['text']:    
+    requests.get(api_url, params={
+        'chat_id': Hook['params']['message']['chat']['id'],
+        'text': s,
+    }, verify=False)
