@@ -2,6 +2,7 @@ import random
 import requests
 from markovgen import Markov
 
+
 with open('corpus.txt') as corpus:
     m = Markov(corpus)
 
