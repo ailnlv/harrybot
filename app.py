@@ -13,7 +13,7 @@ token = "376658113:AAHh2TcsvcuKAFwYuBeQwCfSLUBUQm2Dfms"
 api_url = "https://api.telegram.org/bot{}/sendMessage".format(token)
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def harry():
     data = flask.request.get_json()
     if not data:
