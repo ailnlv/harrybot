@@ -16,6 +16,8 @@ api_url = "https://api.telegram.org/bot{}/sendMessage".format(token)
 @app.route('/')
 def harry():
     data = flask.request.get_json()
+    if not data:
+        return m.generate_markov_text()
     params = dict()
     if "message" in data and "/harry" in data["message"]["text"]:
         s = m.generate_markov_text()

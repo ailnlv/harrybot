@@ -92,5 +92,11 @@ def test_harry_bad_request(client):
     return_data = json.loads(r.data)
     assert return_data == {}
 
+
+def test_harry_get(client):
+    r = client.get('/')
+    assert r.status == '200 OK'
+
+
 if __name__ == '__main__':
     pytest.main()
