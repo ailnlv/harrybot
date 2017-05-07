@@ -2,6 +2,7 @@ from flask import Flask
 import flask
 from markovgen import Markov
 import requests
+import json
 
 with open('corpus.txt') as corpus:
     m = Markov(corpus)
@@ -12,19 +13,18 @@ token = "376658113:AAHh2TcsvcuKAFwYuBeQwCfSLUBUQm2Dfms"
 api_url = "https://api.telegram.org/bot{}/sendMessage".format(token)
 
 
-@app.route('/echo')
-def echo():
-    return str(request)
-
-
 @app.route('/')
 def harry():
-    s = m.generate_markov_text()
-    message = flask.request.args.get('message')
-    if message and "/harry" in message.text:
-        message = dict(chat=dict(id=12700726), text='/harry')
-
-    return s
+    data = flask.request.get_json()
+    params = dict()
+    if "message" in data and "/harry" in data["message"]["text"]:
+        s = m.generate_markov_text()
+        params = {
+            'chat_id': data['message']['chat']['id'],
+            'text': s,
+        }
+        requests.get(api_url, params=params)
+    return json.dumps(params)
 
 if __name__ == "__main__":
     app.run()
