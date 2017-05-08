@@ -4,7 +4,7 @@ from markovgen import Markov
 import requests
 import json
 
-with open('corpus.txt') as corpus:
+with open('filtrado.txt') as corpus:
     m = Markov(corpus)
 
 app = Flask(__name__)
