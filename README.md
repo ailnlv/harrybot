@@ -1,5 +1,9 @@
-# harrybot
-Bot del bb.
+# HarryBot, el Bot del bb.
 
-Código de markovgen tomado de [acá](https://github.com/ProgVal/markovgen) e
-integrado al código porque hook.io es penca.
+HarryBot genera strings random harry-escos usando [cadenas de
+markov](https://github.com/ProgVal/markovgen), a partir del
+[dump](https://github.com/tvdstaaij/telegram-history-dump) de todos los mensajes
+de Harry en telegram.
+
+El microservice está implementado con [Flask hosteado en
+Heroku](https://github.com/zachwill/flask_heroku).
