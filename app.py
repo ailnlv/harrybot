@@ -25,11 +25,11 @@ def harry():
     if '/harry' in message["text"]:
 
         s = m.generate_markov_text()
-        params = {
-            'chat_id': message['chat']['id'],
-            # por algun motivo los \n no se encodean
-            'text': s.strip(),
-        }
+        params = dict(
+            chat_id=message['chat']['id'],
+            # los \n vienen con el backslash escapado
+            text=s.strip().replace('\\n', '\n'),
+        )
         requests.get(api_url, params=params)
     return json.dumps(params)
 
