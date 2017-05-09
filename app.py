@@ -15,14 +15,16 @@ api_url = "https://api.telegram.org/bot{}/sendMessage".format(token)
 
 @app.route('/', methods=['GET', 'POST'])
 def harry():
-    data = flask.request.get_json()
-    if not data:
+    if flask.request.method == 'GET':
         return m.generate_markov_text()
     params = dict()
-    if "message" in data and "/harry" in data["message"]["text"]:
+    data = flask.request.get_json()
+    message = data['message']
+    if '/harry' in message["text"]:
+
         s = m.generate_markov_text()
         params = {
-            'chat_id': data['message']['chat']['id'],
+            'chat_id': message['chat']['id'],
             'text': s,
         }
         requests.get(api_url, params=params)

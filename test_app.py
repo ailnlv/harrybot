@@ -63,7 +63,7 @@ def test_harry(client, json_data):
     """
     Insulto gratuito con cadenas de markov
     """
-    r = client.get('/', data=json.dumps(json_data["data"]), headers=json_data["headers"])
+    r = client.post('/', data=json.dumps(json_data["data"]), headers=json_data["headers"])
     assert r.status == '200 OK'
     return_data = json.loads(r.data)
     assert all(x in return_data for x in ['text', 'chat_id'])
@@ -73,7 +73,7 @@ def test_harry(client, json_data):
 def test_harry_sin_comando(client, json_data):
     headers = [('Content-Type', 'application/json')]
     json_data['data']['message']['text'] = '/asdf'
-    r = client.get('/', data=json.dumps(json_data["data"]), headers=json_data["headers"])
+    r = client.post('/', data=json.dumps(json_data["data"]), headers=json_data["headers"])
     assert r.status == '200 OK'
     return_data = json.loads(r.data)
     assert return_data == {}
