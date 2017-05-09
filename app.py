@@ -26,7 +26,8 @@ def harry():
         s = m.generate_markov_text()
         params = {
             'chat_id': message['chat']['id'],
-            'text': s,
+            # por algun motivo los \n no se encodean
+            'text': s.strip(),
         }
         requests.get(api_url, params=params)
     return json.dumps(params)
