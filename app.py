@@ -15,6 +15,7 @@ api_url = "https://api.telegram.org/bot{}/sendMessage".format(token)
 
 @app.route('/', methods=['GET', 'POST'])
 def harry():
+    import urllib
     if flask.request.method == 'GET':
         return m.generate_markov_text()
     params = dict()
@@ -25,7 +26,7 @@ def harry():
         s = m.generate_markov_text()
         params = {
             'chat_id': message['chat']['id'],
-            'text': s,
+            'text': urllib.quote(s),
         }
         requests.get(api_url, params=params)
     return json.dumps(params)

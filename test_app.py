@@ -4,9 +4,21 @@ import requests
 import json
 
 
+req = dict()
+
+
 @pytest.fixture(autouse=True)
 def no_requests(monkeypatch):
-    def fake_req(*args, **params):
+    """
+    El request devuelve el json estandar. Los argumentos del request
+    se guardan en req
+    """
+    def fake_req(url, **params):
+        global req
+        req = dict(
+            url=url,
+            params=params['params'],
+        )
         return {
             "ok": True,
             "result":            {
@@ -84,12 +96,30 @@ def test_harry_get(client):
     assert r.status == '200 OK'
 
 
+def test_request(client, json_data, monkeypatch):
+    """
+    Probando que el request se haga correctamente
+    """
+    global req
+    from re import match
+    from markovgen import Markov
+    from urllib import quote
+    monkeypatch.setattr(Markov, 'generate_markov_text', lambda _: "hola\nchao")
+
+    r = client.post('/', headers=json_data['headers'], data=json.dumps(json_data['data']))
+    assert match('https://api.telegram.org/bot.*/sendMessage',
+                 req["url"]), "La url tiene que apuntar a la api de telegram"
+    assert req['params']['text'] == quote("hola\nchao"), "El texto tiene que venir url-encoded"
+
+
 def test_harry_methods(client, json_data):
     """
     Harry tiene que responder por get y post
     """
     r = client.get('/', headers=json_data['headers'], data=json.dumps(json_data['data']))
+    assert r.status == '200 OK', "Tiene que responder GET"
     r = client.post('/', headers=json_data['headers'], data=json.dumps(json_data['data']))
+    assert r.status == '200 OK', "Tiene que responder POST"
 
 if __name__ == '__main__':
     pytest.main()
