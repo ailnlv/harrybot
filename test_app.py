@@ -103,13 +103,12 @@ def test_request(client, json_data, monkeypatch):
     global req
     from re import match
     from markovgen import Markov
-    from urllib import quote
     monkeypatch.setattr(Markov, 'generate_markov_text', lambda _: "hola\nchao")
 
     r = client.post('/', headers=json_data['headers'], data=json.dumps(json_data['data']))
     assert match('https://api.telegram.org/bot.*/sendMessage',
                  req["url"]), "La url tiene que apuntar a la api de telegram"
-    assert req['params']['text'] == quote("hola\nchao"), "El texto tiene que venir url-encoded"
+    assert req['params']['text'] == "hola\nchao", "El texto tiene que venir url-encoded"
 
 
 def test_harry_methods(client, json_data):
