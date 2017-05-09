@@ -3,13 +3,14 @@ import flask
 from markovgen import Markov
 import requests
 import json
+import os
 
 with open('filtrado.txt') as corpus:
     m = Markov(corpus)
 
 app = Flask(__name__)
 
-token = "376658113:AAHh2TcsvcuKAFwYuBeQwCfSLUBUQm2Dfms"
+token = os.environ.get("TELEGRAM_BOT_TOKEN")
 api_url = "https://api.telegram.org/bot{}/sendMessage".format(token)
 
 
