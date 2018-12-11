@@ -23,12 +23,9 @@ def harry():
     data = flask.request.get_json()
     message = data['message']
     if '/harry' in message["text"]:
-
-        s = m.generate_markov_text()
         params = dict(
             chat_id=message['chat']['id'],
-            # los \n vienen con el backslash escapado
-            text=s.strip().replace('\\n', '\n'),
+            text="jan culiao chupa el pico",
         )
         requests.get(api_url, params=params)
     return json.dumps(params)
