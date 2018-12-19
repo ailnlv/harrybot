@@ -65,14 +65,12 @@ def notification(chat_id, texto):
     /notify envia una notificacion al chat_id
     """
     params = dict(
-        message=dict(
-            chat=dict(
-                id=chat_id
-            ),
-            text=texto
-        )
+        chat_id=chat_id,
+        text=texto
     )
-    requests.get(api_url, params=params)
+
+    r = requests.get(api_url, params=params)
+    print(r.url)
     return json.dumps(
         params, sort_keys=True,
         indent=4,
