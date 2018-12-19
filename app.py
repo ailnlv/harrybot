@@ -41,16 +41,43 @@ def harry():
         if '/harry' in message["text"]:
             params['text'] = "jan culiao chupa " + random.choice(sal),
         elif '/echo' in message["text"]:
-            params['text'] = json.dumps(message,
-                                        sort_keys=True,
-                                        indent=4,
-                                        separators=(',', ': ')
-                                        )
+            params['text'] = json.dumps(
+                message,
+                sort_keys=True,
+                indent=4,
+                separators=(',', ': ')
+            )
         requests.get(api_url, params=params)
 
     except:
         flask.abort(400)
-    return json.dumps(params)
+    return json.dumps(
+        params,
+        sort_keys=True,
+        indent=4,
+        separators=(',', ': ')
+    )
+
+
+@app.route('/notify/<chat_id>/<texto>', methods=['GET'])
+def notification(chat_id, texto):
+    """
+    /notify envia una notificacion al chat_id
+    """
+    params = dict(
+        message=dict(
+            chat=dict(
+                id=chat_id
+            ),
+            text=texto
+        )
+    )
+    requests.get(api_url, params=params)
+    return json.dumps(
+        params, sort_keys=True,
+        indent=4,
+        separators=(',', ': ')
+    )
 
 if __name__ == "__main__":
     app.run()
