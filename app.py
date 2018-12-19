@@ -41,7 +41,11 @@ def harry():
         if '/harry' in message["text"]:
             params['text'] = "jan culiao chupa " + random.choice(sal),
         elif '/echo' in message["text"]:
-            params['text'] = json.dumps(message)
+            params['text'] = json.dumps(message,
+                                        sort_keys=True,
+                                        indent=4,
+                                        separators=(',', ': ')
+                                        )
         requests.get(api_url, params=params)
 
     except:
