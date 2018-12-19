@@ -64,13 +64,14 @@ def notification(chat_id, texto):
     """
     /notify envia una notificacion al chat_id
     """
+    if chat_id == "me":
+        chat_id = os.environ.get("MY_CHAT_ID")
     params = dict(
         chat_id=chat_id,
         text=texto
     )
 
     r = requests.get(api_url, params=params)
-    print(r.url)
     return json.dumps(
         params, sort_keys=True,
         indent=4,
