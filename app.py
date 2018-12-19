@@ -6,8 +6,6 @@ import json
 import os
 import random
 
-with open('filtrado.txt') as corpus:
-    m = Markov(corpus)
 
 app = Flask(__name__)
 
@@ -28,6 +26,8 @@ sal = [
 
 @app.route('/', methods=['GET', 'POST'])
 def harry():
+    with open('filtrado.txt') as corpus:
+        m = Markov(corpus)
     import urllib
     if flask.request.method == 'GET':
         return m.generate_markov_text()
