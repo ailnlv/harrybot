@@ -12,18 +12,6 @@ app = Flask(__name__)
 token = os.environ.get("TELEGRAM_BOT_TOKEN")
 api_url = "https://api.telegram.org/bot{}/sendMessage".format(token)
 
-sal = [
-    "el pico",
-    "la sal",
-    "la disonancia cognitiva",
-    "la concha",
-    "el pene",
-    "chilezuela",
-    "la concerta",
-    "anos",
-]
-
-
 @app.route('/', methods=['GET', 'POST'])
 def harry():
     with open('filtrado.txt') as corpus:
@@ -39,7 +27,8 @@ def harry():
             chat_id=message['chat']['id'],
         )
         if '/harry' in message["text"]:
-            params['text'] = "jan culiao chupa " + random.choice(sal),
+            s = m.generate_markov_text()
+            params['text'] = s.strip().replace('\\n', '\n')
         elif '/echo' in message["text"]:
             params['text'] = json.dumps(
                 message,
